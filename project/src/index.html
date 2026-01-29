@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game Catalog Dashboard</title>
+    <link rel="stylesheet" href="styles/theme.css" />
+    <link rel="stylesheet" href="styles/components.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <div class="brand">
+          <img class="brand__logo" id="brandLogo" alt="Brand logo" />
+          <div class="brand__title" id="brandName">Aurora Arcade</div>
+        </div>
+        <button class="header__action" type="button">Access / Masuk</button>
+      </header>
+
+      <section class="hero">
+        <h1 class="hero__title" id="heroTitle">TOP 10 GAME TERFAVORIT</h1>
+        <p class="hero__subtitle" id="heroSubtitle">
+          Dari Pragmatic Play, PG Soft, Habanero, dan Microgaming
+        </p>
+      </section>
+
+      <section class="toolbar">
+        <div class="tabs" id="providerTabs"></div>
+      </section>
+
+      <section class="grid" id="catalogGrid"></section>
+    </div>
+
+    <div class="modal" id="detailModal" aria-hidden="true">
+      <div class="modal__content" role="dialog" aria-modal="true">
+        <div class="modal__header">
+          <h3 id="modalTitle">Detail</h3>
+          <button class="modal__close" type="button" id="modalClose">×</button>
+        </div>
+        <p class="modal__info" id="modalInfo">Placeholder detail</p>
+        <button class="card__action" type="button" id="modalAction">Tutup</button>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

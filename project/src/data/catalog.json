@@ -1,0 +1,162 @@
+[
+  {
+    "id": "gm-001",
+    "title": "Aurora Quest",
+    "provider": "Pragmatic Play",
+    "favoriteScore": 96,
+    "percent": 88,
+    "image": "assets/images/placeholder.svg"
+  },
+  {
+    "id": "gm-002",
+    "title": "Crimson Drift",
+    "provider": "PG Soft",
+    "favoriteScore": 92,
+    "percent": 72,
+    "image": "assets/images/placeholder.svg"
+  },
+  {
+    "id": "gm-003",
+    "title": "Skyforge Run",
+    "provider": "Habanero",
+    "favoriteScore": 89,
+    "percent": 63,
+    "image": "assets/images/placeholder.svg"
+  },
+  {
+    "id": "gm-004",
+    "title": "Golden Frontier",
+    "provider": "Microgaming",
+    "favoriteScore": 91,
+    "percent": 81,
+    "image": "assets/images/placeholder.svg"
+  },
+  {
+    "id": "gm-005",
+    "title": "Neon Pulse",
+    "provider": "Pragmatic Play",
+    "favoriteScore": 84,
+    "percent": 58,
+    "image": "assets/images/placeholder.svg"
+  },
+  {
+    "id": "gm-006",
+    "title": "Obsidian Trails",
+    "provider": "PG Soft",
+    "favoriteScore": 87,
+    "percent": 76,
+    "image": "assets/images/placeholder.svg"
+  },
+  {
+    "id": "gm-007",
+    "title": "Stellar Atlas",
+    "provider": "Habanero",
+    "favoriteScore": 83,
+    "percent": 69,
+    "image": "assets/images/placeholder.svg"
+  },
+  {
+    "id": "gm-008",
+    "title": "Ember Garden",
+    "provider": "Microgaming",
+    "favoriteScore": 95,
+    "percent": 91,
+    "image": "assets/images/placeholder.svg"
+  },
+  {
+    "id": "gm-009",
+    "title": "Frostbound",
+    "provider": "Pragmatic Play",
+    "favoriteScore": 78,
+    "percent": 47,
+    "image": "assets/images/placeholder.svg"
+  },
+  {
+    "id": "gm-010",
+    "title": "Echo Valley",
+    "provider": "PG Soft",
+    "favoriteScore": 88,
+    "percent": 82,
+    "image": "assets/images/placeholder.svg"
+  },
+  {
+    "id": "gm-011",
+    "title": "Lumen Rift",
+    "provider": "Habanero",
+    "favoriteScore": 82,
+    "percent": 64,
+    "image": "assets/images/placeholder.svg"
+  },
+  {
+    "id": "gm-012",
+    "title": "Shadow Circuit",
+    "provider": "Microgaming",
+    "favoriteScore": 86,
+    "percent": 55,
+    "image": "assets/images/placeholder.svg"
+  },
+  {
+    "id": "gm-013",
+    "title": "Sunspire",
+    "provider": "Pragmatic Play",
+    "favoriteScore": 90,
+    "percent": 86,
+    "image": "assets/images/placeholder.svg"
+  },
+  {
+    "id": "gm-014",
+    "title": "Prism Shift",
+    "provider": "PG Soft",
+    "favoriteScore": 85,
+    "percent": 78,
+    "image": "assets/images/placeholder.svg"
+  },
+  {
+    "id": "gm-015",
+    "title": "Riverstone",
+    "provider": "Habanero",
+    "favoriteScore": 80,
+    "percent": 59,
+    "image": "assets/images/placeholder.svg"
+  },
+  {
+    "id": "gm-016",
+    "title": "Vortex Vale",
+    "provider": "Microgaming",
+    "favoriteScore": 93,
+    "percent": 83,
+    "image": "assets/images/placeholder.svg"
+  },
+  {
+    "id": "gm-017",
+    "title": "Crystal Cove",
+    "provider": "Pragmatic Play",
+    "favoriteScore": 81,
+    "percent": 74,
+    "image": "assets/images/placeholder.svg"
+  },
+  {
+    "id": "gm-018",
+    "title": "Ironclad Rise",
+    "provider": "PG Soft",
+    "favoriteScore": 79,
+    "percent": 66,
+    "image": "assets/images/placeholder.svg"
+  },
+  {
+    "id": "gm-019",
+    "title": "Velvet Horizon",
+    "provider": "Habanero",
+    "favoriteScore": 94,
+    "percent": 92,
+    "image": "assets/images/placeholder.svg"
+  },
+  {
+    "id": "gm-020",
+    "title": "Pulse Harbor",
+    "provider": "Microgaming",
+    "favoriteScore": 77,
+    "percent": 61,
+    "image": "assets/images/placeholder.svg"
+  }
+]
