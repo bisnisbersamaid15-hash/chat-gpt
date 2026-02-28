@@ -1,0 +1,41 @@
+:root {
+  --op-bg: #0f0f11;
+  --op-card: #1a1a1f;
+  --op-gold: #d4af37;
+}
+body { background: var(--op-bg); color: #e5e5e5; }
+.login-page { min-height: 100vh; }
+.operator-shell { min-height: 100vh; }
+.sidebar {
+  width: 250px;
+  background: linear-gradient(180deg, #111, #181818);
+  border-right: 1px solid rgba(212,175,55,.25);
+}
+.main { background: #121216; }
+.operator-card {
+  background: var(--op-card);
+  border: 1px solid rgba(212,175,55,.2);
+  box-shadow: 0 10px 20px rgba(0,0,0,.25);
+}
+.operator-link {
+  color: #bbb;
+  border-radius: .5rem;
+}
+.operator-link.active,
+.operator-link:hover {
+  background: rgba(212,175,55,.14);
+  color: #fff;
+}
+.text-gold { color: var(--op-gold) !important; }
+.table-dark { --bs-table-bg: #16161a; }
+.form-control, .form-select {
+  background: #0f0f12;
+  border-color: #323238;
+  color: #efefef;
+}
+.form-control:focus, .form-select:focus {
+  border-color: var(--op-gold);
+  box-shadow: 0 0 0 .2rem rgba(212,175,55,.15);
+  background: #111;
+  color: #fff;
+}
