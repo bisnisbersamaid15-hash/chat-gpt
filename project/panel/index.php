@@ -2,22 +2,31 @@
 require __DIR__ . '/partials/bootstrap.php';
 
 if (!empty($_SESSION['operator_auth'])) {
-  header('Location: /panel/dashboard.php');
-  exit;
+    header('Location: /panel/dashboard.php');
+    exit;
 }
 
 $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $email = trim($_POST['email'] ?? '');
-  $password = trim($_POST['password'] ?? '');
+    // Verify CSRF token
+    if (!panel_csrf_verify()) {
+        $error = 'Invalid form submission. Please try again.';
+    } else {
+        $email    = trim($_POST['email'] ?? '');
+        $password = trim($_POST['password'] ?? '');
 
-  if ($email === PANEL_EMAIL && $password === PANEL_PASSWORD) {
-    $_SESSION['operator_auth'] = true;
-    $_SESSION['operator_name'] = 'MNK Operator';
-    header('Location: /panel/dashboard.php');
-    exit;
-  }
-  $error = 'Invalid credentials';
+        if ($email === PANEL_EMAIL && $password === PANEL_PASSWORD) {
+            // Regenerate session ID to prevent session fixation
+            session_regenerate_id(true);
+            $_SESSION['operator_auth'] = true;
+            $_SESSION['operator_name'] = 'MNK Operator';
+            // Refresh CSRF token after login
+            unset($_SESSION['csrf_token']);
+            header('Location: /panel/dashboard.php');
+            exit;
+        }
+        $error = 'Invalid credentials';
+    }
 }
 ?>
 <!doctype html>
@@ -31,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body class="login-page d-flex align-items-center justify-content-center">
   <form class="card operator-card p-4" method="post" style="width: 360px;">
+    <?= panel_csrf_field() ?>
     <h4 class="text-gold mb-3">Backend Panel Login</h4>
     <?php if ($error): ?><div class="alert alert-danger py-2"><?= htmlspecialchars($error) ?></div><?php endif; ?>
     <div class="mb-3">

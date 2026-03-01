@@ -16,7 +16,7 @@ $failed = array_sum(array_map(fn($o) => $o['status'] === 'Failed' ? $o['amount']
 <div class="card operator-card p-3 mt-3">
   <h6>Export</h6>
   <p class="text-secondary">Use quick export for review submission.</p>
-  <button class="btn btn-outline-warning btn-sm" id="simulateExport">Generate CSV (simulated)</button>
+  <button class="btn btn-outline-warning btn-sm" id="simulateExport">Generate CSV</button>
   <div id="exportFeedback" class="small text-gold mt-2"></div>
 </div>
 <?php require __DIR__ . '/partials/layout-bottom.php'; ?>
