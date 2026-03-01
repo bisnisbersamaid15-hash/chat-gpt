@@ -14,18 +14,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $email    = trim($_POST['email'] ?? '');
         $password = trim($_POST['password'] ?? '');
+        $ip       = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
 
-        if ($email === PANEL_EMAIL && $password === PANEL_PASSWORD) {
-            // Regenerate session ID to prevent session fixation
-            session_regenerate_id(true);
-            $_SESSION['operator_auth'] = true;
-            $_SESSION['operator_name'] = 'MNK Operator';
-            // Refresh CSRF token after login
-            unset($_SESSION['csrf_token']);
-            header('Location: /panel/dashboard.php');
-            exit;
+        // Rate limiting: check if IP is locked out
+        $lockout = panel_rate_check($ip);
+        if ($lockout > 0) {
+            $minutes = (int) ceil($lockout / 60);
+            $error = "Too many failed attempts. Try again in {$minutes} minute(s).";
+        } else {
+            // Look up admin in database
+            $stmt = panel_db()->prepare('SELECT id, name, password FROM admins WHERE email = ?');
+            $stmt->execute([$email]);
+            $admin = $stmt->fetch();
+
+            if ($admin && password_verify($password, $admin['password'])) {
+                // Record successful login
+                panel_rate_record($email, $ip, true);
+
+                // Regenerate session ID to prevent session fixation
+                session_regenerate_id(true);
+                $_SESSION['operator_auth']     = true;
+                $_SESSION['operator_name']     = $admin['name'];
+                $_SESSION['operator_admin_id'] = $admin['id'];
+                // Refresh CSRF token after login
+                unset($_SESSION['csrf_token']);
+
+                // Audit log
+                panel_audit('login', 'admins', "Admin #{$admin['id']} logged in");
+
+                header('Location: /panel/dashboard.php');
+                exit;
+            }
+
+            // Record failed attempt
+            panel_rate_record($email, $ip, false);
+            $error = 'Invalid credentials';
         }
-        $error = 'Invalid credentials';
     }
 }
 ?>

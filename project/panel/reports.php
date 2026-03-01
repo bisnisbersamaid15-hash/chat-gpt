@@ -4,9 +4,11 @@ panel_guard();
 $title = 'Reports';
 $currentPage = 'reports';
 require __DIR__ . '/partials/layout-top.php';
-$paid = array_sum(array_map(fn($o) => $o['status'] === 'Paid' ? $o['amount'] : 0, $seed['orders']));
-$pending = array_sum(array_map(fn($o) => $o['status'] === 'Pending' ? $o['amount'] : 0, $seed['orders']));
-$failed = array_sum(array_map(fn($o) => $o['status'] === 'Failed' ? $o['amount'] : 0, $seed['orders']));
+
+$db = panel_db();
+$paid    = (int) $db->query("SELECT COALESCE(SUM(amount), 0) FROM orders WHERE status = 'Paid'")->fetchColumn();
+$pending = (int) $db->query("SELECT COALESCE(SUM(amount), 0) FROM orders WHERE status = 'Pending'")->fetchColumn();
+$failed  = (int) $db->query("SELECT COALESCE(SUM(amount), 0) FROM orders WHERE status = 'Failed'")->fetchColumn();
 ?>
 <div class="row g-3">
   <div class="col-md-4"><div class="card operator-card p-3"><small>Paid Volume</small><h5 class="text-success mt-2"><?= panel_currency($paid) ?></h5></div></div>
@@ -15,7 +17,7 @@ $failed = array_sum(array_map(fn($o) => $o['status'] === 'Failed' ? $o['amount']
 </div>
 <div class="card operator-card p-3 mt-3">
   <h6>Export</h6>
-  <p class="text-secondary">Use quick export for review submission.</p>
+  <p class="text-secondary">Download all orders as CSV for review submission.</p>
   <button class="btn btn-outline-warning btn-sm" id="simulateExport">Generate CSV</button>
   <div id="exportFeedback" class="small text-gold mt-2"></div>
 </div>

@@ -1,6 +1,11 @@
 <?php
 require __DIR__ . '/partials/bootstrap.php';
 
+// Audit log before destroying session
+if (!empty($_SESSION['operator_admin_id'])) {
+    panel_audit('logout', 'admins', "Admin #{$_SESSION['operator_admin_id']} logged out");
+}
+
 $_SESSION = [];
 
 if (ini_get('session.use_cookies')) {

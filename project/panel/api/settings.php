@@ -22,9 +22,10 @@ if (strlen($brand) > 100) {
     exit;
 }
 
-// In production this would persist to a database.
-// For now, store in session to demonstrate server-side handling.
-$_SESSION['settings_brand'] = $brand;
-$_SESSION['settings_notif'] = $notif;
+// Persist to database
+panel_setting_set('brand', $brand);
+panel_setting_set('notifications', $notif ? '1' : '0');
+
+panel_audit('update_settings', 'settings', "Brand: {$brand}, Notifications: " . ($notif ? 'on' : 'off'));
 
 echo json_encode(['message' => 'Settings saved successfully']);

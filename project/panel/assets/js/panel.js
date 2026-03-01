@@ -6,7 +6,9 @@ $(function () {
     headers: { 'X-CSRF-Token': csrfToken }
   });
 
-  // --- Orders page: live filter ---
+  // =========================================================================
+  //  ORDERS PAGE: live filter
+  // =========================================================================
   $('#orderFilter').on('input', function () {
     var query = $(this).val().toString().toLowerCase();
     $('#ordersTable tbody tr').each(function () {
@@ -15,26 +17,196 @@ $(function () {
     });
   });
 
-  // --- Users page: add user via AJAX ---
+  // =========================================================================
+  //  USERS: Add
+  // =========================================================================
   $('#saveUser').on('click', function () {
     var $btn = $(this);
     $btn.prop('disabled', true).text('Saving…');
-    var payload = $('#addUserForm').serialize();
-    $.post('/panel/api/add-user.php', payload)
+    $.post('/panel/api/add-user.php', $('#addUserForm').serialize())
       .done(function (res) {
         $('#userFeedback').removeClass('text-danger').addClass('text-gold').text(res.message);
         $('#addUserForm')[0].reset();
+        setTimeout(function () { location.reload(); }, 800);
       })
       .fail(function (xhr) {
-        var msg = (xhr.responseJSON && xhr.responseJSON.message) || 'Unable to add user';
-        $('#userFeedback').removeClass('text-gold').addClass('text-danger').text(msg);
+        $('#userFeedback').removeClass('text-gold').addClass('text-danger')
+          .text((xhr.responseJSON && xhr.responseJSON.message) || 'Unable to add user');
       })
-      .always(function () {
-        $btn.prop('disabled', false).text('Save');
+      .always(function () { $btn.prop('disabled', false).text('Save'); });
+  });
+
+  // =========================================================================
+  //  USERS: Edit — populate modal
+  // =========================================================================
+  $(document).on('click', '.btn-edit-user', function () {
+    var $b = $(this);
+    $('#editUserId').val($b.data('id'));
+    $('#editUserName').val($b.data('name'));
+    $('#editUserEmail').val($b.data('email'));
+    $('#editUserRole').val($b.data('role'));
+    $('#editUserStatus').val($b.data('status'));
+    $('#editUserFeedback').text('');
+    new bootstrap.Modal('#editUserModal').show();
+  });
+
+  $('#updateUser').on('click', function () {
+    var $btn = $(this);
+    $btn.prop('disabled', true).text('Updating…');
+    $.post('/panel/api/update-user.php', $('#editUserForm').serialize())
+      .done(function (res) {
+        $('#editUserFeedback').removeClass('text-danger').addClass('text-gold').text(res.message);
+        setTimeout(function () { location.reload(); }, 800);
+      })
+      .fail(function (xhr) {
+        $('#editUserFeedback').removeClass('text-gold').addClass('text-danger')
+          .text((xhr.responseJSON && xhr.responseJSON.message) || 'Update failed');
+      })
+      .always(function () { $btn.prop('disabled', false).text('Update'); });
+  });
+
+  // =========================================================================
+  //  USERS: Delete
+  // =========================================================================
+  $(document).on('click', '.btn-delete-user', function () {
+    var id = $(this).data('id');
+    var name = $(this).data('name');
+    if (!confirm('Delete user "' + name + '"? This cannot be undone.')) return;
+    $.post('/panel/api/delete-user.php', { id: id })
+      .done(function () { location.reload(); })
+      .fail(function (xhr) {
+        alert((xhr.responseJSON && xhr.responseJSON.message) || 'Delete failed');
       });
   });
 
-  // --- Dashboard: refresh orders via AJAX ---
+  // =========================================================================
+  //  PRODUCTS: Add
+  // =========================================================================
+  $('#saveProduct').on('click', function () {
+    var $btn = $(this);
+    $btn.prop('disabled', true).text('Saving…');
+    $.post('/panel/api/add-product.php', $('#addProductForm').serialize())
+      .done(function (res) {
+        $('#productFeedback').removeClass('text-danger').addClass('text-gold').text(res.message);
+        $('#addProductForm')[0].reset();
+        setTimeout(function () { location.reload(); }, 800);
+      })
+      .fail(function (xhr) {
+        $('#productFeedback').removeClass('text-gold').addClass('text-danger')
+          .text((xhr.responseJSON && xhr.responseJSON.message) || 'Unable to add product');
+      })
+      .always(function () { $btn.prop('disabled', false).text('Save'); });
+  });
+
+  // =========================================================================
+  //  PRODUCTS: Edit — populate modal
+  // =========================================================================
+  $(document).on('click', '.btn-edit-product', function () {
+    var $b = $(this);
+    $('#editProductOriginalId').val($b.data('id'));
+    $('#editProductId').val($b.data('id'));
+    $('#editProductName').val($b.data('name'));
+    $('#editProductProvider').val($b.data('provider'));
+    $('#editProductStock').val($b.data('stock'));
+    $('#editProductPrice').val($b.data('price'));
+    $('#editProductFeedback').text('');
+    new bootstrap.Modal('#editProductModal').show();
+  });
+
+  $('#updateProduct').on('click', function () {
+    var $btn = $(this);
+    $btn.prop('disabled', true).text('Updating…');
+    $.post('/panel/api/update-product.php', $('#editProductForm').serialize())
+      .done(function (res) {
+        $('#editProductFeedback').removeClass('text-danger').addClass('text-gold').text(res.message);
+        setTimeout(function () { location.reload(); }, 800);
+      })
+      .fail(function (xhr) {
+        $('#editProductFeedback').removeClass('text-gold').addClass('text-danger')
+          .text((xhr.responseJSON && xhr.responseJSON.message) || 'Update failed');
+      })
+      .always(function () { $btn.prop('disabled', false).text('Update'); });
+  });
+
+  // =========================================================================
+  //  PRODUCTS: Delete
+  // =========================================================================
+  $(document).on('click', '.btn-delete-product', function () {
+    var id = $(this).data('id');
+    var name = $(this).data('name');
+    if (!confirm('Delete product "' + name + '"? This cannot be undone.')) return;
+    $.post('/panel/api/delete-product.php', { id: id })
+      .done(function () { location.reload(); })
+      .fail(function (xhr) {
+        alert((xhr.responseJSON && xhr.responseJSON.message) || 'Delete failed');
+      });
+  });
+
+  // =========================================================================
+  //  ORDERS: Add
+  // =========================================================================
+  $('#saveOrder').on('click', function () {
+    var $btn = $(this);
+    $btn.prop('disabled', true).text('Saving…');
+    $.post('/panel/api/add-order.php', $('#addOrderForm').serialize())
+      .done(function (res) {
+        $('#orderFeedback').removeClass('text-danger').addClass('text-gold').text(res.message);
+        $('#addOrderForm')[0].reset();
+        setTimeout(function () { location.reload(); }, 800);
+      })
+      .fail(function (xhr) {
+        $('#orderFeedback').removeClass('text-gold').addClass('text-danger')
+          .text((xhr.responseJSON && xhr.responseJSON.message) || 'Unable to add order');
+      })
+      .always(function () { $btn.prop('disabled', false).text('Save'); });
+  });
+
+  // =========================================================================
+  //  ORDERS: Edit — populate modal
+  // =========================================================================
+  $(document).on('click', '.btn-edit-order', function () {
+    var $b = $(this);
+    $('#editOrderOriginalId').val($b.data('id'));
+    $('#editOrderId').val($b.data('id'));
+    $('#editOrderCustomer').val($b.data('customer'));
+    $('#editOrderAmount').val($b.data('amount'));
+    $('#editOrderDate').val($b.data('date'));
+    $('#editOrderStatus').val($b.data('status'));
+    $('#editOrderFeedback').text('');
+    new bootstrap.Modal('#editOrderModal').show();
+  });
+
+  $('#updateOrder').on('click', function () {
+    var $btn = $(this);
+    $btn.prop('disabled', true).text('Updating…');
+    $.post('/panel/api/update-order.php', $('#editOrderForm').serialize())
+      .done(function (res) {
+        $('#editOrderFeedback').removeClass('text-danger').addClass('text-gold').text(res.message);
+        setTimeout(function () { location.reload(); }, 800);
+      })
+      .fail(function (xhr) {
+        $('#editOrderFeedback').removeClass('text-gold').addClass('text-danger')
+          .text((xhr.responseJSON && xhr.responseJSON.message) || 'Update failed');
+      })
+      .always(function () { $btn.prop('disabled', false).text('Update'); });
+  });
+
+  // =========================================================================
+  //  ORDERS: Delete
+  // =========================================================================
+  $(document).on('click', '.btn-delete-order', function () {
+    var id = $(this).data('id');
+    if (!confirm('Delete order "' + id + '"? This cannot be undone.')) return;
+    $.post('/panel/api/delete-order.php', { id: id })
+      .done(function () { location.reload(); })
+      .fail(function (xhr) {
+        alert((xhr.responseJSON && xhr.responseJSON.message) || 'Delete failed');
+      });
+  });
+
+  // =========================================================================
+  //  DASHBOARD: refresh orders via AJAX
+  // =========================================================================
   $('#refreshOrders').on('click', function () {
     var $btn = $(this);
     $btn.prop('disabled', true).text('Loading…');
@@ -44,7 +216,7 @@ $(function () {
         var body = orders.map(function (item) {
           var badge = badgeMap[item.status] || 'secondary';
           return '<tr>' +
-            '<td>' + item.id + '</td>' +
+            '<td>' + $('<span>').text(item.id).html() + '</td>' +
             '<td>' + $('<span>').text(item.customer).html() + '</td>' +
             '<td>Rp ' + new Intl.NumberFormat('id-ID').format(item.amount) + '</td>' +
             '<td><span class="badge text-bg-' + badge + '">' + item.status + '</span></td>' +
@@ -53,19 +225,19 @@ $(function () {
         $('#ordersPreview tbody').html(body);
       })
       .fail(function (xhr) {
-        var msg = (xhr.responseJSON && xhr.responseJSON.message) || 'Failed to load orders';
-        alert(msg);
+        alert((xhr.responseJSON && xhr.responseJSON.message) || 'Failed to load orders');
       })
       .always(function () {
-        $btn.prop('disabled', false).text('Refresh via jQuery');
+        $btn.prop('disabled', false).text('Refresh');
       });
   });
 
-  // --- Reports: real CSV export download ---
+  // =========================================================================
+  //  REPORTS: real CSV export download
+  // =========================================================================
   $('#simulateExport').on('click', function () {
     var $btn = $(this);
     $btn.prop('disabled', true).text('Generating…');
-    // Trigger a real file download via a hidden iframe/link
     var link = document.createElement('a');
     link.href = '/panel/api/export-csv.php';
     link.style.display = 'none';
@@ -78,21 +250,22 @@ $(function () {
     }, 1500);
   });
 
-  // --- Settings: save via AJAX to real endpoint ---
+  // =========================================================================
+  //  SETTINGS: save via AJAX to real endpoint
+  // =========================================================================
   $('#settingsForm').on('submit', function (event) {
     event.preventDefault();
     var $btn = $(this).find('button[type="submit"]');
     $btn.prop('disabled', true).text('Saving…');
     var payload = $(this).serialize();
-    // Add notification toggle value explicitly
     payload += '&notifications=' + ($('#notifSwitch').is(':checked') ? '1' : '0');
     $.post('/panel/api/settings.php', payload)
       .done(function (res) {
         $('#settingsFeedback').removeClass('text-danger').addClass('text-gold').text(res.message);
       })
       .fail(function (xhr) {
-        var msg = (xhr.responseJSON && xhr.responseJSON.message) || 'Failed to save settings';
-        $('#settingsFeedback').removeClass('text-gold').addClass('text-danger').text(msg);
+        $('#settingsFeedback').removeClass('text-gold').addClass('text-danger')
+          .text((xhr.responseJSON && xhr.responseJSON.message) || 'Failed to save settings');
       })
       .always(function () {
         $btn.prop('disabled', false).text('Save changes');

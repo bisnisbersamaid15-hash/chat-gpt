@@ -13,10 +13,11 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$seed = require __DIR__ . '/../data/seed.php';
+// Load database layer (replaces static seed)
+require_once __DIR__ . '/../data/database.php';
 
-const PANEL_EMAIL    = 'mnk@gmail.com';
-const PANEL_PASSWORD = 'aaa123';
+// Initialize DB (auto-creates + seeds on first run)
+panel_db();
 
 /**
  * Redirect unauthenticated users to login page.
