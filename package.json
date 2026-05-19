@@ -1,6 +1,6 @@
 {
   "name": "crud-admin-panel",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -8,21 +8,24 @@
     "start": "node src/server.js",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev --name init",
+    "prisma:migrate:deploy": "prisma migrate deploy",
     "db:seed": "node prisma/seed.js",
-    "zip": "zip -r crud-admin-panel.zip . -x '*.git*' 'node_modules/*' 'crud-admin-panel.zip'"
+    "zip": "zip -r crud-admin-panel.zip . -x '*.git*' 'node_modules/*' 'crud-admin-panel.zip'",
+    "lint": "node --check src/server.js"
   },
   "dependencies": {
+    "@prisma/client": "^5.22.0",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.7",
     "dayjs": "^1.11.13",
     "ejs": "^3.1.10",
     "express": "^4.21.2",
+    "express-rate-limit": "^7.4.1",
     "express-session": "^1.18.1",
     "helmet": "^8.1.0",
     "method-override": "^3.0.0",
     "multer": "^1.4.5-lts.1",
     "prisma": "^5.22.0",
-    "@prisma/client": "^5.22.0",
     "zod": "^3.23.8"
   }
 }
